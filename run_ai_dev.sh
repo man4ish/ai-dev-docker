@@ -18,6 +18,5 @@ docker run --gpus all --ipc=host \
   -v ~/.ollama:/root/.ollama \
   -v "$(pwd)":/workspace \
   -p 8888:8888 \
-  # -p 11434:11434 \   # Ollama API port — uncomment if Ollama service access is needed
   -e HF_HOME=/root/.cache/huggingface \
-  -it ai-dev:ollama bash
+  -it ai-dev:latest bash
