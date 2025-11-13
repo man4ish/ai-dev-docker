@@ -100,4 +100,44 @@ RUN mkdir -p /root/.jupyter && \
 # Starts in Bash. Optionally can be replaced with a startup
 # script to auto-run Jupyter + Ollama.
 # ==========================================================
+
+# ==========================================================
+# 9. Bioinformatics Workflow Tools (Nextflow + FastQC + GATK + SnpEff)
+# ----------------------------------------------------------
+# Installs Java-based and command-line bioinformatics tools
+# compatible with ARM64/AMD64 where possible.
+# ==========================================================
+
+# Install system-level dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openjdk-11-jre-headless default-jdk \
+    fastqc samtools bcftools \
+    wget unzip curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Nextflow (latest stable)
+RUN curl -s https://get.nextflow.io | bash && \
+    mv nextflow /usr/local/bin/ && \
+    chmod +x /usr/local/bin/nextflow
+
+# Install GATK 4.5.0.0
+RUN wget -q https://github.com/broadinstitute/gatk/releases/download/4.5.0.0/gatk-4.5.0.0.zip && \
+    unzip gatk-4.5.0.0.zip -d /opt && \
+    ln -s /opt/gatk-4.5.0.0/gatk /usr/local/bin/gatk && \
+    rm gatk-4.5.0.0.zip
+
+
+# ==========================================================
+# 10. Install SnpEff 5.3a (Permanent, fixed script)
+# ----------------------------------------------------------
+    RUN wget -q -O /tmp/snpEff_latest_core.zip https://snpeff.odsp.astrazeneca.com/versions/snpEff_latest_core.zip && \
+    unzip /tmp/snpEff_latest_core.zip -d /opt && \
+    ln -s /opt/snpEff/snpEff.jar /usr/local/bin/snpEff.jar && \
+    echo '#!/bin/bash' > /usr/local/bin/snpeff && \
+    echo 'java -jar /usr/local/bin/snpEff.jar "$@"' >> /usr/local/bin/snpeff && \
+    chmod +x /usr/local/bin/snpeff && \
+    rm /tmp/snpEff_latest_core.zip
+
+ENV PATH="/usr/local/bin:/opt/gatk-4.5.0.0:/opt/snpEff:${PATH}"
+
 CMD ["bash"]
