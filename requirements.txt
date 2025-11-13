@@ -117,7 +117,7 @@ multidict==6.7.0
 multiprocess==0.70.18
 mypy_extensions==1.1.0
 mysqlclient==2.2.7
-narwhals==2.10.2
+narwhals==2.11.0
 nbclient==0.10.2
 nbconvert==7.16.6
 nbformat==5.10.4
@@ -156,8 +156,8 @@ pillow==12.0.0
 platformdirs==4.5.0
 plotly==6.4.0
 pluggy==1.6.0
-polars==1.35.1
-polars-runtime-32==1.35.1
+polars==1.35.2
+polars-runtime-32==1.35.2
 polygraphy==0.49.26
 pooch==1.8.2
 prometheus_client==0.23.1
